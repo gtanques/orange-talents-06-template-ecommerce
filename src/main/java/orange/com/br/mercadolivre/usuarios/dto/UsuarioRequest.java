@@ -1,6 +1,7 @@
 package orange.com.br.mercadolivre.usuarios.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.UnicoValid;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 import org.hibernate.validator.constraints.Length;
 
@@ -13,6 +14,7 @@ public class UsuarioRequest {
     @Email
     @NotBlank
     @NotNull
+    @UnicoValid(entidade = Usuario.class, campo = "login" )
     private String login;
 
     @NotBlank

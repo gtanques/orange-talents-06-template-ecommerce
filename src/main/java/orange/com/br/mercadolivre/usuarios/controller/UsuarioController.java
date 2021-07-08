@@ -1,5 +1,6 @@
-package orange.com.br.mercadolivre.usuarios;
+package orange.com.br.mercadolivre.usuarios.controller;
 
+import orange.com.br.mercadolivre.usuarios.Usuario;
 import orange.com.br.mercadolivre.usuarios.dto.UsuarioRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

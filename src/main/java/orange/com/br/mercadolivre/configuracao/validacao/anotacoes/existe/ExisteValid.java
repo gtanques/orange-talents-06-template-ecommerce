@@ -1,4 +1,4 @@
-package orange.com.br.mercadolivre.configuracao.validacao.anotacoes;
+package orange.com.br.mercadolivre.configuracao.validacao.anotacoes.existe;
 
 
 import javax.validation.Constraint;
@@ -11,10 +11,10 @@ import static java.lang.annotation.ElementType.FIELD;
 
 @Target({FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UnicoValidator.class)
-public @interface UnicoValid {
+@Constraint(validatedBy = ExisteValidator.class)
+public @interface ExisteValid {
 
-    String message() default "já cadastrado(a).";
+    String message() default "Não encontrado(a).";
 
     Class<?>[] groups() default {};
 

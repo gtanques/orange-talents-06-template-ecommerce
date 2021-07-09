@@ -9,7 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class UsuarioRequest {
+public class NovoUsuarioRequest {
 
     @Email
     @NotBlank
@@ -23,11 +23,11 @@ public class UsuarioRequest {
     private String senha;
 
     @Deprecated
-    private UsuarioRequest() {
+    private NovoUsuarioRequest() {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public UsuarioRequest(String login, String senha) {
+    public NovoUsuarioRequest(String login, String senha) {
         this.login = login;
         this.senha = senha;
     }

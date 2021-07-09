@@ -25,7 +25,6 @@ public class NovaCategoriaController {
     @PostMapping
     @Transactional
     public ResponseEntity<?> inserir(@Valid @RequestBody NovaCategoriaRequest request){
-
         Categoria categoria = request.toModel(entityManager);
         entityManager.persist(categoria);
 

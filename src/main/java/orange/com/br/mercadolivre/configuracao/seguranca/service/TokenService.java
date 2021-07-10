@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class GeradorTokenService {
+public class TokenService {
 
     @Value("${mercadolivre.jwt.expiration}")
     private String expiration;

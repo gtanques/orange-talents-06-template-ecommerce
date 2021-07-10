@@ -1,6 +1,6 @@
 package orange.com.br.mercadolivre.configuracao.seguranca;
 
-import orange.com.br.mercadolivre.configuracao.seguranca.service.GeradorTokenService;
+import orange.com.br.mercadolivre.configuracao.seguranca.service.TokenService;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 import orange.com.br.mercadolivre.usuarios.repository.UsuarioRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,10 +16,10 @@ import java.io.IOException;
 
 public class AutenticaTokenViaFilter extends OncePerRequestFilter {
 
-    private final GeradorTokenService tokenService;
+    private final TokenService tokenService;
     private final UsuarioRepository usuarioRepository;
 
-    public AutenticaTokenViaFilter(GeradorTokenService tokenService, UsuarioRepository usuarioRepository) {
+    public AutenticaTokenViaFilter(TokenService tokenService, UsuarioRepository usuarioRepository) {
         this.tokenService = tokenService;
         this.usuarioRepository = usuarioRepository;
     }

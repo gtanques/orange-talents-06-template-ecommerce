@@ -2,7 +2,7 @@ package orange.com.br.mercadolivre.configuracao.seguranca.controller;
 
 import orange.com.br.mercadolivre.configuracao.seguranca.dto.TokenRequest;
 import orange.com.br.mercadolivre.configuracao.seguranca.dto.TokenResponse;
-import orange.com.br.mercadolivre.configuracao.seguranca.service.TokenService;
+import orange.com.br.mercadolivre.configuracao.seguranca.service.GerenciadorDeTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,11 +24,11 @@ public class AutenticaController {
     private final AuthenticationManager authManager;
 
     @Autowired
-    private final TokenService tokenService;
+    private final GerenciadorDeTokenService gerenciadorDeTokenService;
 
-    public AutenticaController(AuthenticationManager authManager, TokenService tokenService) {
+    public AutenticaController(AuthenticationManager authManager, GerenciadorDeTokenService gerenciadorDeTokenService) {
         this.authManager = authManager;
-        this.tokenService = tokenService;
+        this.gerenciadorDeTokenService = gerenciadorDeTokenService;
     }
 
     @PostMapping
@@ -37,7 +37,7 @@ public class AutenticaController {
 
         try {
             Authentication authentication = authManager.authenticate(dadosLogin);
-            String token = tokenService.gerarToken(authentication);
+            String token = gerenciadorDeTokenService.gerarToken(authentication);
             return ResponseEntity.ok(new TokenResponse(token, "Bearer"));
         } catch (AuthenticationException e) {
             return ResponseEntity.badRequest().build();

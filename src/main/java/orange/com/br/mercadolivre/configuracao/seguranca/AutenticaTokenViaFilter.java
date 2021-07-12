@@ -1,6 +1,6 @@
 package orange.com.br.mercadolivre.configuracao.seguranca;
 
-import orange.com.br.mercadolivre.configuracao.seguranca.service.TokenService;
+import orange.com.br.mercadolivre.configuracao.seguranca.service.GerenciadorDeTokenService;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 import orange.com.br.mercadolivre.usuarios.repository.UsuarioRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,11 +16,11 @@ import java.io.IOException;
 
 public class AutenticaTokenViaFilter extends OncePerRequestFilter {
 
-    private final TokenService tokenService;
+    private final GerenciadorDeTokenService gerenciadorDeTokenService;
     private final UsuarioRepository usuarioRepository;
 
-    public AutenticaTokenViaFilter(TokenService tokenService, UsuarioRepository usuarioRepository) {
-        this.tokenService = tokenService;
+    public AutenticaTokenViaFilter(GerenciadorDeTokenService gerenciadorDeTokenService, UsuarioRepository usuarioRepository) {
+        this.gerenciadorDeTokenService = gerenciadorDeTokenService;
         this.usuarioRepository = usuarioRepository;
     }
 
@@ -28,7 +28,7 @@ public class AutenticaTokenViaFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String token = recuperarToken(request);
-        boolean valido = tokenService.isTokenValido(token);
+        boolean valido = gerenciadorDeTokenService.validaToken(token);
 
         if (valido) {
             autenticarCliente(token);
@@ -38,18 +38,18 @@ public class AutenticaTokenViaFilter extends OncePerRequestFilter {
     }
 
     private void autenticarCliente(String token) {
-        Long idUsuario = tokenService.getIdUsuario(token);
+        Long idUsuario = gerenciadorDeTokenService.getIdUsuario(token);
         Usuario usuario = usuarioRepository.findById(idUsuario).get();
         Authentication authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     private String recuperarToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        if (token == null || token.isEmpty() || !token.startsWith("Bearer ")) {
+        String authorization = request.getHeader("Authorization");
+        if (authorization == null || authorization.isEmpty() || !authorization.startsWith("Bearer ")) {
             return null;
         }
-        return token.substring(7);
+        return authorization.substring(7);
     }
 
 }

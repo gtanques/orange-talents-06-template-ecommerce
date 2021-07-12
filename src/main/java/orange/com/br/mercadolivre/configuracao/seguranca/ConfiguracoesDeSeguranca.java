@@ -1,7 +1,7 @@
 package orange.com.br.mercadolivre.configuracao.seguranca;
 
 import orange.com.br.mercadolivre.configuracao.seguranca.service.AutenticaUsuarioService;
-import orange.com.br.mercadolivre.configuracao.seguranca.service.TokenService;
+import orange.com.br.mercadolivre.configuracao.seguranca.service.GerenciadorDeTokenService;
 import orange.com.br.mercadolivre.usuarios.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,14 +25,14 @@ public class ConfiguracoesDeSeguranca extends WebSecurityConfigurerAdapter {
     private final AutenticaUsuarioService autenticaUsuarioService;
 
     @Autowired
-    private final TokenService geradorTokenService;
+    private final GerenciadorDeTokenService geradorGerenciadorDeTokenService;
 
     @Autowired
     private final UsuarioRepository usuarioRepository;
 
-    public ConfiguracoesDeSeguranca(AutenticaUsuarioService autenticacaoService, TokenService geradorTokenService, UsuarioRepository usuarioRepository) {
+    public ConfiguracoesDeSeguranca(AutenticaUsuarioService autenticacaoService, GerenciadorDeTokenService geradorGerenciadorDeTokenService, UsuarioRepository usuarioRepository) {
         this.autenticaUsuarioService = autenticacaoService;
-        this.geradorTokenService = geradorTokenService;
+        this.geradorGerenciadorDeTokenService = geradorGerenciadorDeTokenService;
         this.usuarioRepository = usuarioRepository;
     }
 
@@ -63,7 +63,7 @@ public class ConfiguracoesDeSeguranca extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-                .addFilterBefore(new AutenticaTokenViaFilter(geradorTokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new AutenticaTokenViaFilter(geradorGerenciadorDeTokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class)
             .headers().frameOptions().disable();
     }
 

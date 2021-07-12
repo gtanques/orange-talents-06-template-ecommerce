@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class TokenService {
+public class GerenciadorDeTokenService {
 
     @Value("${mercadolivre.jwt.expiration}")
     private String expiration;
@@ -34,7 +34,7 @@ public class TokenService {
                 .compact();
     }
 
-    public boolean isTokenValido(String token) {
+    public boolean validaToken(String token) {
         try {
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
             return true;

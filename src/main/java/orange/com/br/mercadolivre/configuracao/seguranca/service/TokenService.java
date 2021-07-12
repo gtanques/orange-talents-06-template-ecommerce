@@ -1,6 +1,7 @@
 package orange.com.br.mercadolivre.configuracao.seguranca.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import orange.com.br.mercadolivre.usuarios.Usuario;
@@ -37,7 +38,7 @@ public class TokenService {
         try {
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
             return true;
-        }catch (Exception e){
+        }catch (JwtException e){
             return false;
         }
     }

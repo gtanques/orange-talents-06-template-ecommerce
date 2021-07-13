@@ -3,6 +3,7 @@ package orange.com.br.mercadolivre.produtos;
 import orange.com.br.mercadolivre.caracteristicas.CaracteristicaProduto;
 import orange.com.br.mercadolivre.caracteristicas.dto.CaracteristicaProdutoRequest;
 import orange.com.br.mercadolivre.categorias.Categoria;
+import orange.com.br.mercadolivre.imagens.ImagemProduto;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 import org.hibernate.validator.constraints.Length;
 
@@ -47,6 +48,13 @@ public class Produto {
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
     private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
 
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    private Set<ImagemProduto> imagens = new HashSet<>();
+
+    @Deprecated
+    private Produto() {
+    }
+
     public Produto(@NotNull @NotBlank String nome,
                    @NotNull @Positive BigDecimal valor,
                    @NotNull @Positive Integer quantidade,
@@ -77,6 +85,14 @@ public class Produto {
                 ", usuario=" + usuario +
                 ", caracteristicas=" + caracteristicas +
                 '}';
+    }
+
+    public void adicionarImagens(Set<String> links) {
+        Set<ImagemProduto> imagens = links.stream()
+                .map(url -> new ImagemProduto(url, this))
+                .collect(Collectors.toSet());
+
+        this.imagens.addAll(imagens);
     }
 
 }

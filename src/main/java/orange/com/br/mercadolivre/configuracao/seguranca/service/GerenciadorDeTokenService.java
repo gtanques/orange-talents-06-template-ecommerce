@@ -38,7 +38,7 @@ public class GerenciadorDeTokenService {
         try {
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
             return true;
-        }catch (JwtException e){
+        }catch (Exception e){
             return false;
         }
     }

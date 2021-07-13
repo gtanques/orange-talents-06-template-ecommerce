@@ -1,4 +1,4 @@
-package orange.com.br.mercadolivre.opinioes;
+package orange.com.br.mercadolivre.produtos.opinioes;
 
 import orange.com.br.mercadolivre.produtos.Produto;
 import orange.com.br.mercadolivre.usuarios.Usuario;

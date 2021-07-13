@@ -1,4 +1,4 @@
-package orange.com.br.mercadolivre.imagens;
+package orange.com.br.mercadolivre.produtos.imagens;
 
 import orange.com.br.mercadolivre.produtos.Produto;
 import org.hibernate.validator.constraints.URL;

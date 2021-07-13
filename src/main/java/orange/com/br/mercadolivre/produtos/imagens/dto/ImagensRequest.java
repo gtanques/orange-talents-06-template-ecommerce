@@ -1,4 +1,4 @@
-package orange.com.br.mercadolivre.imagens.dto;
+package orange.com.br.mercadolivre.produtos.imagens.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 

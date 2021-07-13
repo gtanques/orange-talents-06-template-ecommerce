@@ -1,7 +1,7 @@
-package orange.com.br.mercadolivre.imagens.controller;
+package orange.com.br.mercadolivre.produtos.imagens.controller;
 
-import orange.com.br.mercadolivre.imagens.dto.ImagensRequest;
-import orange.com.br.mercadolivre.imagens.upload.UploadImagem;
+import orange.com.br.mercadolivre.produtos.imagens.dto.ImagensRequest;
+import orange.com.br.mercadolivre.produtos.imagens.upload.UploadImagem;
 import orange.com.br.mercadolivre.produtos.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

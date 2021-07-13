@@ -1,8 +1,8 @@
-package orange.com.br.mercadolivre.opinioes.controller;
+package orange.com.br.mercadolivre.produtos.opinioes.controller;
 
 
-import orange.com.br.mercadolivre.opinioes.Opiniao;
-import orange.com.br.mercadolivre.opinioes.dto.NovaOpiniaoRequest;
+import orange.com.br.mercadolivre.produtos.opinioes.Opiniao;
+import orange.com.br.mercadolivre.produtos.opinioes.dto.NovaOpiniaoRequest;
 import orange.com.br.mercadolivre.produtos.Produto;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 import org.springframework.http.ResponseEntity;

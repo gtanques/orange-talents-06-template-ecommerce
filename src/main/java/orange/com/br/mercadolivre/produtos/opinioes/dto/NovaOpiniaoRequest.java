@@ -1,7 +1,7 @@
-package orange.com.br.mercadolivre.opinioes.dto;
+package orange.com.br.mercadolivre.produtos.opinioes.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import orange.com.br.mercadolivre.opinioes.Opiniao;
+import orange.com.br.mercadolivre.produtos.opinioes.Opiniao;
 import orange.com.br.mercadolivre.produtos.Produto;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 import org.hibernate.validator.constraints.Length;

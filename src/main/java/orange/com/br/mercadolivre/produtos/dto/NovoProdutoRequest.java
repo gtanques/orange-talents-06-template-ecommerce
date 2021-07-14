@@ -1,11 +1,12 @@
 package orange.com.br.mercadolivre.produtos.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import orange.com.br.mercadolivre.caracteristicas.dto.CaracteristicaProdutoRequest;
 import orange.com.br.mercadolivre.categorias.Categoria;
 import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.existe.ExisteValid;
+import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.nomerepetidolista.NomeRepetidoListaValid;
 import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.usuarioproduto.UsuarioPossuiProdutoValid;
 import orange.com.br.mercadolivre.produtos.Produto;
+import orange.com.br.mercadolivre.produtos.caracteristicas.dto.CaracteristicaProdutoRequest;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 import orange.com.br.mercadolivre.usuarios.repository.UsuarioRepository;
 import org.hibernate.validator.constraints.Length;
@@ -48,6 +49,7 @@ public class NovoProdutoRequest {
 
     @Size(min = 3)
     @NotNull
+    @NomeRepetidoListaValid
     List<CaracteristicaProdutoRequest> caracteristicas;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)

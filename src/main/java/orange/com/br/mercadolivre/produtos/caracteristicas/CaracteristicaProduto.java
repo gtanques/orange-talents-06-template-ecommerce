@@ -1,4 +1,4 @@
-package orange.com.br.mercadolivre.caracteristicas;
+package orange.com.br.mercadolivre.produtos.caracteristicas;
 
 import orange.com.br.mercadolivre.produtos.Produto;
 

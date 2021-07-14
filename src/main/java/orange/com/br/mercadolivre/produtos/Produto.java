@@ -1,8 +1,8 @@
 package orange.com.br.mercadolivre.produtos;
 
-import orange.com.br.mercadolivre.caracteristicas.CaracteristicaProduto;
-import orange.com.br.mercadolivre.caracteristicas.dto.CaracteristicaProdutoRequest;
 import orange.com.br.mercadolivre.categorias.Categoria;
+import orange.com.br.mercadolivre.produtos.caracteristicas.CaracteristicaProduto;
+import orange.com.br.mercadolivre.produtos.caracteristicas.dto.CaracteristicaProdutoRequest;
 import orange.com.br.mercadolivre.produtos.imagens.ImagemProduto;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 import org.hibernate.validator.constraints.Length;

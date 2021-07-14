@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import orange.com.br.mercadolivre.categorias.Categoria;
 import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.existe.ExisteValid;
 import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.nomerepetidolista.NomeRepetidoListaValid;
-import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.usuarioproduto.UsuarioPossuiProdutoValid;
 import orange.com.br.mercadolivre.produtos.Produto;
 import orange.com.br.mercadolivre.produtos.caracteristicas.dto.CaracteristicaProdutoRequest;
 import orange.com.br.mercadolivre.usuarios.Usuario;
-import orange.com.br.mercadolivre.usuarios.repository.UsuarioRepository;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.EntityManager;
@@ -18,7 +16,6 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 public class NovoProdutoRequest {
 
@@ -42,11 +39,6 @@ public class NovoProdutoRequest {
     @NotNull
     private Long idCategoria;
 
-    @ExisteValid(entidade = Usuario.class, campo = "login")
-    @UsuarioPossuiProdutoValid
-    @NotNull
-    private String usuarioLogin;
-
     @Size(min = 3)
     @NotNull
     @NomeRepetidoListaValid
@@ -58,19 +50,16 @@ public class NovoProdutoRequest {
                               Integer quantidade,
                               String descricao,
                               Long idCategoria,
-                              String usuarioLogin,
                               List<CaracteristicaProdutoRequest> caracteristicas) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;
         this.descricao = descricao;
         this.idCategoria = idCategoria;
-        this.usuarioLogin = usuarioLogin;
         this.caracteristicas = caracteristicas;
     }
 
-    public Produto toModel(EntityManager entityManager, UsuarioRepository usuarioRepository) {
-        Optional<Usuario> usuario = usuarioRepository.findByLogin(this.usuarioLogin);
+    public Produto toModel(EntityManager entityManager, Usuario usuario) {
         Categoria categoria = entityManager.find(Categoria.class, idCategoria);
 
         return new Produto(this.nome,
@@ -78,8 +67,8 @@ public class NovoProdutoRequest {
                         this.quantidade,
                         this.descricao,
                         categoria,
-                        usuario.get(),
-                        caracteristicas);
+                        usuario,
+                        this.caracteristicas);
     }
 
 }

@@ -2,9 +2,9 @@ package orange.com.br.mercadolivre.produtos.controller;
 
 import orange.com.br.mercadolivre.produtos.Produto;
 import orange.com.br.mercadolivre.produtos.dto.NovoProdutoRequest;
-import orange.com.br.mercadolivre.usuarios.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import orange.com.br.mercadolivre.usuarios.Usuario;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,19 +22,17 @@ public class NovoProdutoController {
     @PersistenceContext
     private final EntityManager entityManager;
 
-    @Autowired
-    private final UsuarioRepository usuarioRepository;
-
-    public NovoProdutoController(EntityManager entityManager, UsuarioRepository usuarioRepository) {
+    public NovoProdutoController(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.usuarioRepository = usuarioRepository;
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> inserir(@RequestBody @Valid NovoProdutoRequest request){
-        Produto produto = request.toModel(entityManager, usuarioRepository);
+    public ResponseEntity<?> inserir(@RequestBody @Valid NovoProdutoRequest request, Authentication authentication){
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        Produto produto = request.toModel(entityManager, usuario);
         entityManager.persist(produto);
+
         return ResponseEntity.ok().build();
     }
 

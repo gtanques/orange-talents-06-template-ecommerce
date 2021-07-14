@@ -2,10 +2,12 @@ package orange.com.br.mercadolivre.configuracao.validacao.controller;
 
 import orange.com.br.mercadolivre.configuracao.validacao.dto.ErroDeFormularioDto;
 import orange.com.br.mercadolivre.configuracao.validacao.dto.ErroGlobalDto;
+import orange.com.br.mercadolivre.configuracao.validacao.excecoes.ExcecaoPersonalizada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -46,6 +48,12 @@ public class ErroDeValidacaoHandler {
         });
 
         return dto;
+    }
+
+    @ExceptionHandler(ExcecaoPersonalizada.class)
+    public ResponseEntity<?> recursoInvalido(ExcecaoPersonalizada e) {
+        ErroGlobalDto erroDto = new ErroGlobalDto(e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erroDto);
     }
 
 }

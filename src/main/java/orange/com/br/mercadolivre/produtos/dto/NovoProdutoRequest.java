@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import orange.com.br.mercadolivre.categorias.Categoria;
 import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.existe.ExisteValid;
 import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.nomerepetidolista.NomeRepetidoListaValid;
-import orange.com.br.mercadolivre.configuracao.validacao.excecoes.ExcecaoPersonalizada;
+import orange.com.br.mercadolivre.configuracao.validacao.excecoes.ExcecaoDeProibidoPersonalizada;
 import orange.com.br.mercadolivre.produtos.Produto;
 import orange.com.br.mercadolivre.produtos.caracteristicas.dto.CaracteristicaProdutoRequest;
 import orange.com.br.mercadolivre.usuarios.Usuario;
@@ -81,7 +81,7 @@ public class NovoProdutoRequest implements VerificarUsuario {
 
         List<?> list = query.getResultList();
         if (!list.isEmpty()){
-            throw new ExcecaoPersonalizada("usuário já possui 1 produto cadastrado.");
+            throw new ExcecaoDeProibidoPersonalizada("usuário já possui 1 produto cadastrado.");
         }
     }
 }

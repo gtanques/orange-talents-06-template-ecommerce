@@ -2,7 +2,8 @@ package orange.com.br.mercadolivre.configuracao.validacao.controller;
 
 import orange.com.br.mercadolivre.configuracao.validacao.dto.ErroDeFormularioDto;
 import orange.com.br.mercadolivre.configuracao.validacao.dto.ErroGlobalDto;
-import orange.com.br.mercadolivre.configuracao.validacao.excecoes.ExcecaoPersonalizada;
+import orange.com.br.mercadolivre.configuracao.validacao.excecoes.ExcecaoDeIdNaoEncontradoPersonalizada;
+import orange.com.br.mercadolivre.configuracao.validacao.excecoes.ExcecaoDeProibidoPersonalizada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -50,10 +51,16 @@ public class ErroDeValidacaoHandler {
         return dto;
     }
 
-    @ExceptionHandler(ExcecaoPersonalizada.class)
-    public ResponseEntity<?> recursoInvalido(ExcecaoPersonalizada e) {
+    @ExceptionHandler(ExcecaoDeProibidoPersonalizada.class)
+    public ResponseEntity<?> proibido(ExcecaoDeProibidoPersonalizada e) {
         ErroGlobalDto erroDto = new ErroGlobalDto(e.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erroDto);
+    }
+
+    @ExceptionHandler(ExcecaoDeIdNaoEncontradoPersonalizada.class)
+    public ResponseEntity<?> naoEncontrado(ExcecaoDeIdNaoEncontradoPersonalizada e) {
+        ErroGlobalDto erroDto = new ErroGlobalDto(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erroDto);
     }
 
 }

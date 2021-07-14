@@ -6,6 +6,7 @@ import orange.com.br.mercadolivre.usuarios.repository.UsuarioRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -13,7 +14,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
+@Component
 public class AutenticaTokenViaFilter extends OncePerRequestFilter {
 
     private final GerenciadorDeTokenService gerenciadorDeTokenService;
@@ -26,12 +29,12 @@ public class AutenticaTokenViaFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         String token = recuperarToken(request);
-        boolean valido = gerenciadorDeTokenService.validaToken(token);
-
-        if (valido) {
-            autenticarCliente(token);
+        if(Objects.nonNull(token) && !token.isEmpty()){
+            boolean valido = gerenciadorDeTokenService.validaToken(token);
+            if (valido) {
+                autenticarCliente(token);
+            }
         }
 
         filterChain.doFilter(request, response);

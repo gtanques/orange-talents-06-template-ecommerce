@@ -21,19 +21,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class ConfiguracoesDeSeguranca extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private final AutenticaUsuarioService autenticaUsuarioService;
-
-    @Autowired
     private final GerenciadorDeTokenService geradorGerenciadorDeTokenService;
+    private final UsuarioRepository usuarioRepository;
+    private final AutenticaTokenViaFilter filtroAutenticacao;
 
     @Autowired
-    private final UsuarioRepository usuarioRepository;
-
-    public ConfiguracoesDeSeguranca(AutenticaUsuarioService autenticacaoService, GerenciadorDeTokenService geradorGerenciadorDeTokenService, UsuarioRepository usuarioRepository) {
+    public ConfiguracoesDeSeguranca(AutenticaUsuarioService autenticacaoService,
+                                    GerenciadorDeTokenService geradorGerenciadorDeTokenService,
+                                    UsuarioRepository usuarioRepository,
+                                    AutenticaTokenViaFilter filtroAutenticacao) {
         this.autenticaUsuarioService = autenticacaoService;
         this.geradorGerenciadorDeTokenService = geradorGerenciadorDeTokenService;
         this.usuarioRepository = usuarioRepository;
+        this.filtroAutenticacao = filtroAutenticacao;
     }
 
     @Override
@@ -63,7 +64,7 @@ public class ConfiguracoesDeSeguranca extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-                .addFilterBefore(new AutenticaTokenViaFilter(geradorGerenciadorDeTokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(filtroAutenticacao, UsernamePasswordAuthenticationFilter.class)
             .headers().frameOptions().disable();
     }
 

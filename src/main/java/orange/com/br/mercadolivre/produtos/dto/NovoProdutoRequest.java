@@ -4,15 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import orange.com.br.mercadolivre.categorias.Categoria;
 import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.existe.ExisteValid;
 import orange.com.br.mercadolivre.configuracao.validacao.anotacoes.nomerepetidolista.NomeRepetidoListaValid;
-import orange.com.br.mercadolivre.configuracao.validacao.excecoes.ExcecaoDeProibidoPersonalizada;
 import orange.com.br.mercadolivre.produtos.Produto;
 import orange.com.br.mercadolivre.produtos.caracteristicas.dto.CaracteristicaProdutoRequest;
 import orange.com.br.mercadolivre.usuarios.Usuario;
-import orange.com.br.mercadolivre.usuarios.util.VerificarUsuario;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -20,7 +17,7 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class NovoProdutoRequest implements VerificarUsuario {
+public class NovoProdutoRequest {
 
     @NotBlank
     @NotNull
@@ -64,7 +61,6 @@ public class NovoProdutoRequest implements VerificarUsuario {
 
     public Produto toModel(EntityManager entityManager, Usuario usuario) {
         Categoria categoria = entityManager.find(Categoria.class, idCategoria);
-        verificaSeUsuarioPossuiProdutosCadastrados(entityManager, usuario);
         return new Produto(this.nome,
                         this.valor,
                         this.quantidade,
@@ -74,14 +70,4 @@ public class NovoProdutoRequest implements VerificarUsuario {
                         this.caracteristicas);
     }
 
-    @Override
-    public void verificaSeUsuarioPossuiProdutosCadastrados(EntityManager entityManager, Usuario usuario) {
-        Query query = entityManager.createQuery("select 1 from Produto where usuario.login=:login");
-        query.setParameter("login", usuario.getEmail());
-
-        List<?> list = query.getResultList();
-        if (!list.isEmpty()){
-            throw new ExcecaoDeProibidoPersonalizada("usuário já possui 1 produto cadastrado.");
-        }
-    }
 }

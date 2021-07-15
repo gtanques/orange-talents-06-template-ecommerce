@@ -18,4 +18,5 @@ public class Emails {
 
         mailer.send("<html> . . . </html>", pergunta.getPergunta(), pergunta.getUsuario().getEmail(), pergunta.getProduto().getUsuario().getEmail());
     }
+
 }

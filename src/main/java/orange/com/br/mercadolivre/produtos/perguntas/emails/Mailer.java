@@ -8,7 +8,6 @@ public interface Mailer {
     /**
      * @param body | corpo e-mail
      * @param subject | assunto
-     * @param nameFrom | nome provedor
      * @param from | origem
      * @param to | destino
      */

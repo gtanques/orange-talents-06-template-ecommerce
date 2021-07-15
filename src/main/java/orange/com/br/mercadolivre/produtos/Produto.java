@@ -73,18 +73,8 @@ public class Produto {
                 .collect(Collectors.toSet()));
     }
 
-    @Override
-    public String toString() {
-        return "Produto{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", valor=" + valor +
-                ", quantidade=" + quantidade +
-                ", descricao='" + descricao + '\'' +
-                ", categoria=" + categoria +
-                ", usuario=" + usuario +
-                ", caracteristicas=" + caracteristicas +
-                '}';
+    public Usuario getUsuario() {
+        return usuario;
     }
 
     public void adicionarImagens(Set<String> links) {

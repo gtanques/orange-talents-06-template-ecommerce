@@ -77,7 +77,7 @@ public class NovoProdutoRequest implements VerificarUsuario {
     @Override
     public void verificaSeUsuarioPossuiProdutosCadastrados(EntityManager entityManager, Usuario usuario) {
         Query query = entityManager.createQuery("select 1 from Produto where usuario.login=:login");
-        query.setParameter("login", usuario.getLogin());
+        query.setParameter("login", usuario.getEmail());
 
         List<?> list = query.getResultList();
         if (!list.isEmpty()){

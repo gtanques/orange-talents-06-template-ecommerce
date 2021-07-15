@@ -6,6 +6,7 @@ import orange.com.br.mercadolivre.usuarios.Usuario;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 
 @Entity
 @Table(name = "tb_pergunta_produto")
@@ -17,6 +18,9 @@ public class Pergunta {
 
     @Column(nullable = false)
     private String titulo;
+
+    @Column(nullable = false, updatable = false)
+    private Instant dataCriacao = Instant.now();
 
     @ManyToOne
     private Usuario usuario;
@@ -34,13 +38,12 @@ public class Pergunta {
         this.produto = produto;
     }
 
-    @Override
-    public String toString() {
-        return "Pergunta{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", usuario=" + usuario +
-                ", produto=" + produto +
-                '}';
+    public Usuario getUsuario() { return usuario; }
+
+    public Produto getProduto() { return produto; }
+
+    public String getPergunta() {
+        return titulo;
     }
+
 }

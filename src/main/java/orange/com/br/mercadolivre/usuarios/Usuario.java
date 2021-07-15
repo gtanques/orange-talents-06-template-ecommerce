@@ -40,7 +40,7 @@ public class Usuario implements UserDetails {
         return id;
     }
 
-    public String getLogin() {
+    public String getEmail() {
         return login;
     }
 

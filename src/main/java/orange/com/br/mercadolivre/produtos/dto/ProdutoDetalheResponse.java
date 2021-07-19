@@ -3,9 +3,11 @@ package orange.com.br.mercadolivre.produtos.dto;
 import orange.com.br.mercadolivre.produtos.Produto;
 import orange.com.br.mercadolivre.produtos.caracteristicas.dto.ProdutoDetalheCaracteristicaResponse;
 import orange.com.br.mercadolivre.produtos.imagens.ImagemProduto;
+import orange.com.br.mercadolivre.produtos.opinioes.uteis.OpinioesUtil;
 import orange.com.br.mercadolivre.produtos.perguntas.Pergunta;
 
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Set;
 
 public class ProdutoDetalheResponse {
@@ -17,6 +19,9 @@ public class ProdutoDetalheResponse {
     private final Set<ProdutoDetalheCaracteristicaResponse> caracteristicas;
     private final Set<String> imagens;
     private final Set<String> perguntas;
+    private final Set<Map<String, String>> opinioes;
+    private final double mediaNotas;
+    private final int totalOpinioes;
 
     public ProdutoDetalheResponse(Produto produto) {
         this.nome = produto.getNome();
@@ -26,6 +31,10 @@ public class ProdutoDetalheResponse {
         this.caracteristicas = produto.mapeiaCaracteristicas(ProdutoDetalheCaracteristicaResponse::new);
         this.imagens = produto.mapeiaImagens(ImagemProduto::getUrl);
         this.perguntas = produto.mapeiaPerguntas(Pergunta::getTitulo);
+        OpinioesUtil opinioes = produto.getOpinioes();
+        this.opinioes = opinioes.mapeiaOpinioes(opiniao -> Map.of("titulo", opiniao.getTitulo(), "descricao", opiniao.getDescricao()));
+        this.mediaNotas = opinioes.media();
+        this.totalOpinioes = opinioes.total();
     }
 
     public String getNome() {
@@ -54,6 +63,14 @@ public class ProdutoDetalheResponse {
 
     public Set<String> getPerguntas() {
         return perguntas;
+    }
+
+    public Set<Map<String, String>> getOpinioes() {
+        return opinioes;
+    }
+
+    public double getMediaNotas() {
+        return mediaNotas;
     }
 
 }

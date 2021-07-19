@@ -24,7 +24,10 @@ public class DetalheProdutoController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> detalhar(@PathVariable Long id) {
-        Produto produto = repository.findById(id).orElseThrow(() -> new ExcecaoDeIdNaoEncontradoPersonalizada(id));
+        Produto produto = repository
+                .findById(id)
+                .orElseThrow(() -> new ExcecaoDeIdNaoEncontradoPersonalizada(id));
+
         return ResponseEntity.ok().body(new ProdutoDetalheResponse(produto));
     }
 

@@ -4,6 +4,8 @@ import orange.com.br.mercadolivre.categorias.Categoria;
 import orange.com.br.mercadolivre.produtos.caracteristicas.CaracteristicaProduto;
 import orange.com.br.mercadolivre.produtos.caracteristicas.dto.CaracteristicaProdutoRequest;
 import orange.com.br.mercadolivre.produtos.imagens.ImagemProduto;
+import orange.com.br.mercadolivre.produtos.opinioes.Opiniao;
+import orange.com.br.mercadolivre.produtos.opinioes.uteis.OpinioesUtil;
 import orange.com.br.mercadolivre.produtos.perguntas.Pergunta;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 import org.hibernate.validator.constraints.Length;
@@ -55,6 +57,9 @@ public class Produto {
     @OrderBy("titulo asc")
     private final SortedSet<Pergunta> perguntas = new TreeSet<>();
 
+    @OneToMany(mappedBy = "produto")
+    private final Set<Opiniao> opinioes = new HashSet<>();
+
 
     @Deprecated
     private Produto() {
@@ -94,10 +99,6 @@ public class Produto {
         return descricao;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
@@ -119,15 +120,25 @@ public class Produto {
     }
 
     public <T> Set<T> mapeiaCaracteristicas(Function<CaracteristicaProduto, T> funcaoMapearCaracteristica) {
-        return this.caracteristicas.stream().map(funcaoMapearCaracteristica).collect(Collectors.toSet());
+        return this.caracteristicas.stream()
+                .map(funcaoMapearCaracteristica)
+                .collect(Collectors.toSet());
     }
 
     public <T> Set<T> mapeiaImagens(Function<ImagemProduto, T> funcaoMapearImagem) {
-        return this.imagens.stream().map(funcaoMapearImagem).collect(Collectors.toSet());
+        return this.imagens.stream()
+                .map(funcaoMapearImagem)
+                .collect(Collectors.toSet());
     }
 
     public <T> Set<T> mapeiaPerguntas(Function<Pergunta, T> funcaoMapearPergunta) {
-        return this.perguntas.stream().map(funcaoMapearPergunta).collect(Collectors.toSet());
+        return this.perguntas.stream()
+                .map(funcaoMapearPergunta)
+                .collect(Collectors.toSet());
+    }
+
+    public OpinioesUtil getOpinioes() {
+        return new OpinioesUtil(this.opinioes);
     }
 
 }

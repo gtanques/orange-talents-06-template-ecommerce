@@ -10,6 +10,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_opiniao")
@@ -49,6 +50,29 @@ public class Opiniao {
         this.descricao = descricao;
         this.produto = produto;
         this.usuario = usuario;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Integer getNota() {  return nota; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Opiniao opiniao = (Opiniao) o;
+        return Objects.equals(id, opiniao.id) && Objects.equals(nota, opiniao.nota) && Objects.equals(titulo, opiniao.titulo) && Objects.equals(descricao, opiniao.descricao) && Objects.equals(produto, opiniao.produto) && Objects.equals(usuario, opiniao.usuario);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nota, titulo, descricao, produto, usuario);
     }
 
 }

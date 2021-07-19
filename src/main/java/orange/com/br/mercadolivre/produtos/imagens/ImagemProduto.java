@@ -31,4 +31,8 @@ public class ImagemProduto {
         this.produto = produto;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
 }

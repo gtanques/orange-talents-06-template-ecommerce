@@ -4,6 +4,7 @@ import orange.com.br.mercadolivre.categorias.Categoria;
 import orange.com.br.mercadolivre.produtos.caracteristicas.CaracteristicaProduto;
 import orange.com.br.mercadolivre.produtos.caracteristicas.dto.CaracteristicaProdutoRequest;
 import orange.com.br.mercadolivre.produtos.imagens.ImagemProduto;
+import orange.com.br.mercadolivre.produtos.perguntas.Pergunta;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 import org.hibernate.validator.constraints.Length;
 
@@ -14,9 +15,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Entity
@@ -46,10 +46,15 @@ public class Produto {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
-    private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
+    private final Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
-    private Set<ImagemProduto> imagens = new HashSet<>();
+    private final Set<ImagemProduto> imagens = new HashSet<>();
+
+    @OneToMany(mappedBy = "produto")
+    @OrderBy("titulo asc")
+    private final SortedSet<Pergunta> perguntas = new TreeSet<>();
+
 
     @Deprecated
     private Produto() {
@@ -58,10 +63,10 @@ public class Produto {
     public Produto(@NotNull @NotBlank String nome,
                    @NotNull @Positive BigDecimal valor,
                    @NotNull @Positive Integer quantidade,
-                   @NotNull @NotBlank @Length(max=1000) String descricao,
+                   @NotNull @NotBlank @Length(max = 1000) String descricao,
                    @Valid @NotNull Categoria categoria,
                    @Valid @NotNull Usuario usuario,
-                   @Valid @NotNull @Size(min=3) Collection<CaracteristicaProdutoRequest> caracteristicas) {
+                   @Valid @NotNull @Size(min = 3) Collection<CaracteristicaProdutoRequest> caracteristicas) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;
@@ -73,8 +78,36 @@ public class Produto {
                 .collect(Collectors.toSet()));
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
     public Usuario getUsuario() {
         return usuario;
+    }
+
+    public Set<CaracteristicaProduto> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    public Set<ImagemProduto> getImagens() {
+        return imagens;
     }
 
     public void adicionarImagens(Set<String> links) {
@@ -83,6 +116,18 @@ public class Produto {
                 .collect(Collectors.toSet());
 
         this.imagens.addAll(imagens);
+    }
+
+    public <T> Set<T> mapeiaCaracteristicas(Function<CaracteristicaProduto, T> funcaoMapearCaracteristica) {
+        return this.caracteristicas.stream().map(funcaoMapearCaracteristica).collect(Collectors.toSet());
+    }
+
+    public <T> Set<T> mapeiaImagens(Function<ImagemProduto, T> funcaoMapearImagem) {
+        return this.imagens.stream().map(funcaoMapearImagem).collect(Collectors.toSet());
+    }
+
+    public <T> Set<T> mapeiaPerguntas(Function<Pergunta, T> funcaoMapearPergunta) {
+        return this.perguntas.stream().map(funcaoMapearPergunta).collect(Collectors.toSet());
     }
 
 }

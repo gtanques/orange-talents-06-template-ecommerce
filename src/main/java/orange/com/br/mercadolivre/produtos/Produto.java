@@ -47,19 +47,18 @@ public class Produto {
     @ManyToOne
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "produto", cascade = CascadeType.PERSIST)
     private final Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
 
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "produto", cascade = CascadeType.MERGE)
     private final Set<ImagemProduto> imagens = new HashSet<>();
 
-    @OneToMany(mappedBy = "produto")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "produto")
     @OrderBy("titulo asc")
     private final SortedSet<Pergunta> perguntas = new TreeSet<>();
 
-    @OneToMany(mappedBy = "produto")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "produto")
     private final Set<Opiniao> opinioes = new HashSet<>();
-
 
     @Deprecated
     private Produto() {

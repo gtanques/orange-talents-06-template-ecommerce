@@ -1,7 +1,8 @@
 package orange.com.br.mercadolivre.usuarios.util.buscarusuario;
 
-import orange.com.br.mercadolivre.configuracao.validacao.excecoes.ExcecaoDeProibidoPersonalizada;
+import orange.com.br.mercadolivre.configuracao.validacao.exceptions.ExcecaoPersonalizada;
 import orange.com.br.mercadolivre.usuarios.Usuario;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -26,7 +27,7 @@ public class BuscarUsuario implements VerificarUsuario{
 
         List<?> list = query.getResultList();
         if (!list.isEmpty()){
-            throw new ExcecaoDeProibidoPersonalizada("usuário já possui 1 produto cadastrado.");
+            throw new ExcecaoPersonalizada("usuário já possui 1 produto cadastrado.", HttpStatus.FORBIDDEN);
         }
     }
 

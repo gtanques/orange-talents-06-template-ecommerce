@@ -140,4 +140,9 @@ public class Produto {
         return new OpinioesUtil(this.opinioes);
     }
 
+    public boolean abaterEstoque(@Positive Integer quantidadeParaAbate) {
+        this.quantidade -= quantidadeParaAbate;
+        return  this.quantidade > 0;
+    }
+
 }

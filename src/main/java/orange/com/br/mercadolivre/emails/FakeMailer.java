@@ -1,4 +1,4 @@
-package orange.com.br.mercadolivre.produtos.perguntas.emails;
+package orange.com.br.mercadolivre.emails;
 
 import org.springframework.stereotype.Component;
 

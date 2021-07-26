@@ -1,9 +1,7 @@
 package orange.com.br.mercadolivre.configuracao.validacao.controller;
 
-import orange.com.br.mercadolivre.configuracao.validacao.dto.ErroDeFormularioDto;
-import orange.com.br.mercadolivre.configuracao.validacao.dto.ErroGlobalDto;
-import orange.com.br.mercadolivre.configuracao.validacao.excecoes.ExcecaoDeIdNaoEncontradoPersonalizada;
-import orange.com.br.mercadolivre.configuracao.validacao.excecoes.ExcecaoDeProibidoPersonalizada;
+import orange.com.br.mercadolivre.configuracao.validacao.dto.ErroResponse;
+import orange.com.br.mercadolivre.configuracao.validacao.exceptions.ExcecaoPersonalizada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -37,30 +35,24 @@ public class ErroDeValidacaoHandler {
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
         fieldErrors.forEach(e -> {
             String mensagem = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-            ErroDeFormularioDto erro = new ErroDeFormularioDto(e.getField(), mensagem);
+            ErroResponse erro = new ErroResponse(e.getField(), mensagem);
             dto.add(erro);
         });
 
         List<ObjectError> errors = exception.getBindingResult().getGlobalErrors();
         errors.forEach(e -> {
             String mensagem = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-            ErroGlobalDto error = new ErroGlobalDto(mensagem);
+            ErroResponse error = new ErroResponse(mensagem);
             dto.add(error);
         });
 
         return dto;
     }
 
-    @ExceptionHandler(ExcecaoDeProibidoPersonalizada.class)
-    public ResponseEntity<?> proibido(ExcecaoDeProibidoPersonalizada e) {
-        ErroGlobalDto erroDto = new ErroGlobalDto(e.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erroDto);
-    }
-
-    @ExceptionHandler(ExcecaoDeIdNaoEncontradoPersonalizada.class)
-    public ResponseEntity<?> naoEncontrado(ExcecaoDeIdNaoEncontradoPersonalizada e) {
-        ErroGlobalDto erroDto = new ErroGlobalDto(e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erroDto);
+    @ExceptionHandler(ExcecaoPersonalizada.class)
+    public ResponseEntity<?> naoEncontrado(ExcecaoPersonalizada e) {
+        ErroResponse erroDto = new ErroResponse(e.getMessage());
+        return ResponseEntity.status(e.getHttpStatus()).body(erroDto);
     }
 
 }

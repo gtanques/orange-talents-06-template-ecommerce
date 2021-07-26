@@ -18,7 +18,4 @@ public class ErroResponse {
         this.erro = erro;
     }
 
-    public ErroResponse(String erro) {
-        this.erro = erro;
-    }
 }

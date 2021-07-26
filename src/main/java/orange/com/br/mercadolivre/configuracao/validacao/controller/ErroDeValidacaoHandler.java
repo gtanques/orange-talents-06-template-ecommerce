@@ -1,5 +1,6 @@
 package orange.com.br.mercadolivre.configuracao.validacao.controller;
 
+import orange.com.br.mercadolivre.configuracao.validacao.dto.ErroGlobalResponse;
 import orange.com.br.mercadolivre.configuracao.validacao.dto.ErroResponse;
 import orange.com.br.mercadolivre.configuracao.validacao.exceptions.ExcecaoPersonalizada;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class ErroDeValidacaoHandler {
         List<ObjectError> errors = exception.getBindingResult().getGlobalErrors();
         errors.forEach(e -> {
             String mensagem = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-            ErroResponse error = new ErroResponse(mensagem);
+            ErroGlobalResponse error = new ErroGlobalResponse(mensagem);
             dto.add(error);
         });
 
@@ -51,7 +52,7 @@ public class ErroDeValidacaoHandler {
 
     @ExceptionHandler(ExcecaoPersonalizada.class)
     public ResponseEntity<?> naoEncontrado(ExcecaoPersonalizada e) {
-        ErroResponse erroDto = new ErroResponse(e.getMessage());
+        ErroGlobalResponse erroDto = new ErroGlobalResponse(e.getMessage());
         return ResponseEntity.status(e.getHttpStatus()).body(erroDto);
     }
 

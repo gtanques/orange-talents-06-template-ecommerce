@@ -42,7 +42,7 @@ public class NovaCompraRequest {
         if (abaterEstoque){
             return new Compra(produto, this.quantidade, comprador, this.gateway);
         }else{
-            throw new ExcecaoPersonalizada("Quantidade indisponivél do produto.", HttpStatus.BAD_REQUEST);
+            throw new ExcecaoPersonalizada("Quantidade do produto indisponível.", HttpStatus.BAD_REQUEST);
         }
     }
 

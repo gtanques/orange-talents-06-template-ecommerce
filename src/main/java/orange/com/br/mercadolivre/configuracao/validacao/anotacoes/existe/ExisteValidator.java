@@ -22,7 +22,7 @@ public class ExisteValidator implements ConstraintValidator<ExisteValid, Object>
     @Override
     public void initialize(ExisteValid valid) {
         entidade = valid.entidade();
-        campo = valid.campo();
+        campo = valid.propriedade();
     }
 
     @Override

@@ -20,7 +20,7 @@ public @interface ExisteValid {
 
     Class<? extends Payload>[] payload() default {};
 
-    String campo();
+    String propriedade();
 
     Class<?> entidade();
 

@@ -22,7 +22,7 @@ public class NovaCompraRequest {
     private final Integer quantidade;
 
     @NotNull
-    @ExisteValid(entidade = Produto.class, campo = "id")
+    @ExisteValid(entidade = Produto.class, propriedade = "id")
     private final Long idProduto;
 
     @NotNull

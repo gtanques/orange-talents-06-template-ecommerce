@@ -14,7 +14,7 @@ public class NovaCategoriaRequest {
     @NotBlank
     private String nome;
 
-    @ExisteValid(entidade = Categoria.class, campo = "id")
+    @ExisteValid(entidade = Categoria.class, propriedade = "id")
     private Long idCategoriaMae;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)

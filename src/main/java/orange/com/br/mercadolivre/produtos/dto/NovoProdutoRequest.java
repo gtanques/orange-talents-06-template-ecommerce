@@ -35,7 +35,7 @@ public class NovoProdutoRequest {
     @NotNull
     private String descricao;
 
-    @ExisteValid(entidade = Categoria.class, campo = "id")
+    @ExisteValid(entidade = Categoria.class, propriedade = "id")
     @NotNull
     private Long idCategoria;
 

@@ -141,8 +141,12 @@ public class Produto {
     }
 
     public boolean abaterEstoque(@Positive Integer quantidadeParaAbate) {
-        this.quantidade -= quantidadeParaAbate;
-        return  this.quantidade > 0;
+        if (this.quantidade > 0){
+            this.quantidade -= quantidadeParaAbate;
+            return true;
+        }
+
+        return  false;
     }
 
 }

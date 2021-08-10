@@ -3,17 +3,20 @@ package orange.com.br.mercadolivre.compras;
 import orange.com.br.mercadolivre.compras.enumeradores.GatewayPagamento;
 import orange.com.br.mercadolivre.compras.enumeradores.StatusCompra;
 import orange.com.br.mercadolivre.produtos.Produto;
+import orange.com.br.mercadolivre.transacoes.Transacao;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_compra")
 public class Compra {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id = UUID.randomUUID().toString().replace("-","");
 
     @ManyToOne
     private Produto produto;
@@ -32,6 +35,9 @@ public class Compra {
     @Column(nullable = false)
     private StatusCompra status;
 
+    @OneToMany(mappedBy = "compra")
+    private Set<Transacao> transacoes = new HashSet<>();
+
     @Deprecated
     private Compra() {
     }
@@ -44,9 +50,7 @@ public class Compra {
         this.status = StatusCompra.INICIADA;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public String getId() { return id; }
 
     public GatewayPagamento getGateway() {
         return gateway;
@@ -58,6 +62,10 @@ public class Compra {
 
     public Usuario getComprador() {
         return comprador;
+    }
+
+    public void alterarStatusCompra(StatusCompra novoStatus){
+        this.status = novoStatus;
     }
 
 }

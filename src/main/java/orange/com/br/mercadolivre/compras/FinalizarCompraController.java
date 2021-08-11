@@ -2,8 +2,8 @@ package orange.com.br.mercadolivre.compras;
 
 import orange.com.br.mercadolivre.configuracoes.validacao.ExcecaoPersonalizada;
 import orange.com.br.mercadolivre.emails.Emails;
-import orange.com.br.mercadolivre.pagamentos.eventosfinalizarcompra.GerarNotaFiscal;
-import orange.com.br.mercadolivre.pagamentos.eventosfinalizarcompra.GerarPontuacaoRanking;
+import orange.com.br.mercadolivre.compras.eventosfinalizarcompra.GerarNotaFiscal;
+import orange.com.br.mercadolivre.compras.eventosfinalizarcompra.GerarPontuacaoRanking;
 import orange.com.br.mercadolivre.pagamentos.transacoes.EnumStatusTransacao;
 import orange.com.br.mercadolivre.pagamentos.transacoes.Transacao;
 import org.springframework.beans.factory.annotation.Autowired;

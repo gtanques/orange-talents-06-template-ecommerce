@@ -1,4 +1,4 @@
-package orange.com.br.mercadolivre.pagamentos.eventosfinalizarcompra;
+package orange.com.br.mercadolivre.compras.eventosfinalizarcompra;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

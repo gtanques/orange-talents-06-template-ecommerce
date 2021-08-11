@@ -1,11 +1,11 @@
-package orange.com.br.mercadolivre.pagamentos.eventosfinalizarcompra;
+package orange.com.br.mercadolivre.compras.eventosfinalizarcompra;
 
 import orange.com.br.mercadolivre.compras.Compra;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class GerarNotaFiscalRequest {
+public class GerarRankingRequest {
 
     @NotNull
     @NotBlank
@@ -13,23 +13,23 @@ public class GerarNotaFiscalRequest {
 
     @NotNull
     @NotBlank
-    private Long idComprador;
+    private Long idVendedor;
 
     @Deprecated
-    private GerarNotaFiscalRequest() {
+    private GerarRankingRequest() {
     }
 
-    public GerarNotaFiscalRequest(Compra compra) {
+    public GerarRankingRequest(Compra compra) {
         this.idCompra = compra.getId();
-        this.idComprador = compra.getComprador().getId();
+        this.idVendedor = compra.getProduto().getUsuario().getId();
     }
 
     public String getIdCompra() {
         return idCompra;
     }
 
-    public Long getIdComprador() {
-        return idComprador;
+    public Long getIdVendedor() {
+        return idVendedor;
     }
 
 }

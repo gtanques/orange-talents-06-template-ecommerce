@@ -41,8 +41,6 @@ public class Transacao {
 
     public EnumGatewayPagamento getGateway() { return gateway; }
 
-    public Instant getMomentoTransacao() { return momentoTransacao; }
-
     public Compra getCompra() { return compra; }
 
     private EnumStatusTransacao tratarRetornoGateway(String retorno){

@@ -6,7 +6,8 @@ import orange.com.br.mercadolivre.compras.enumeradores.StatusCompra;
 import orange.com.br.mercadolivre.compras.repository.CompraRepository;
 import orange.com.br.mercadolivre.configuracao.validacao.exceptions.ExcecaoPersonalizada;
 import orange.com.br.mercadolivre.emails.Emails;
-import orange.com.br.mercadolivre.pagamento.integracoes.Integracao;
+import orange.com.br.mercadolivre.pagamento.eventosfinalizarcompra.GerarNotaFiscal;
+import orange.com.br.mercadolivre.pagamento.eventosfinalizarcompra.GerarPontuacaoRanking;
 import orange.com.br.mercadolivre.transacoes.Transacao;
 import orange.com.br.mercadolivre.transacoes.enumeradores.StatusTransacao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +25,23 @@ import javax.transaction.Transactional;
 @RequestMapping("/compras/finalizar")
 public class FinalizarCompraController {
 
-    private CompraRepository compraRepository;
-    private EntityManager entityManager;
-    private Emails emails;
-    private Integracao integracao;
+    private final CompraRepository compraRepository;
+    private final EntityManager entityManager;
+    private final Emails emails;
+    private final GerarNotaFiscal gerarNotaFiscal;
+    private final GerarPontuacaoRanking gerarPontuacaoRanking;
 
     @Autowired
-    public FinalizarCompraController(CompraRepository compraRepository, EntityManager entityManager, Emails emails, Integracao integracao) {
+    public FinalizarCompraController(CompraRepository compraRepository,
+                                     EntityManager entityManager,
+                                     Emails emails,
+                                     GerarNotaFiscal gerarNotaFiscal,
+                                     GerarPontuacaoRanking gerarPontuacaoRanking) {
         this.compraRepository = compraRepository;
         this.entityManager = entityManager;
         this.emails = emails;
-        this.integracao = integracao;
+        this.gerarNotaFiscal = gerarNotaFiscal;
+        this.gerarPontuacaoRanking = gerarPontuacaoRanking;
     }
 
     @PostMapping("/{idCompra}")
@@ -54,8 +61,8 @@ public class FinalizarCompraController {
         if (transacao.getStatusCompra() == StatusTransacao.SUCESSO) {
             compra.alterarStatusCompra(StatusCompra.FINALIZADA);
             compraRepository.save(compra);
-            integracao.processaNotaFiscal(compra);
-            integracao.gerarPontuacaoRank(compra);
+            gerarNotaFiscal.processar(compra);
+            gerarPontuacaoRanking.processar(compra);
             emails.transacaoEfetuada(transacao);
         } else {
             emails.avisoTransacaoRecusada(transacao);

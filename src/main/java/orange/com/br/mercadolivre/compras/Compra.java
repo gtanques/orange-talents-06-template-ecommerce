@@ -1,13 +1,12 @@
 package orange.com.br.mercadolivre.compras;
 
-import orange.com.br.mercadolivre.compras.enumeradores.GatewayPagamento;
-import orange.com.br.mercadolivre.compras.enumeradores.StatusCompra;
+import orange.com.br.mercadolivre.pagamentos.transacoes.Transacao;
 import orange.com.br.mercadolivre.produtos.Produto;
-import orange.com.br.mercadolivre.transacoes.Transacao;
 import orange.com.br.mercadolivre.usuarios.Usuario;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -33,11 +32,14 @@ public class Compra {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private GatewayPagamento gateway;
+    private EnumGatewayPagamento gateway;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StatusCompra status;
+    private EnumStatusCompra status;
+
+    @Column(nullable = false, updatable = false)
+    private final Instant dataModificacao = Instant.now();
 
     @OneToMany(mappedBy = "compra")
     private final Set<Transacao> transacoes = new HashSet<>();
@@ -46,18 +48,18 @@ public class Compra {
     private Compra() {
     }
 
-    public Compra(Produto produto, Integer quantidade, BigDecimal valorTotal, Usuario comprador, GatewayPagamento gateway) {
+    public Compra(Produto produto, Integer quantidade, BigDecimal valorTotal, Usuario comprador, EnumGatewayPagamento gateway) {
         this.produto = produto;
         this.quantidade = quantidade;
         this.valorTotal = valorTotal;
         this.comprador = comprador;
         this.gateway = gateway;
-        this.status = StatusCompra.INICIADA;
+        this.status = EnumStatusCompra.INICIADA;
     }
 
     public String getId() { return id; }
 
-    public GatewayPagamento getGateway() {
+    public EnumGatewayPagamento getGateway() {
         return gateway;
     }
 
@@ -69,7 +71,7 @@ public class Compra {
 
     public Usuario getComprador() { return comprador; }
 
-    public void alterarStatusCompra(StatusCompra novoStatus){
+    public void alterarStatusCompra(EnumStatusCompra novoStatus){
         this.status = novoStatus;
     }
 

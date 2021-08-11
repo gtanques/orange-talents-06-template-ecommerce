@@ -8,13 +8,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class FakeUpload implements  UploadImagem{
+public class FakeUpload implements UploadImagem {
 
     @Override
     public Set<String> enviar(List<MultipartFile> imagens) {
-          return imagens.stream()
-                  .map(imagem -> "https://firebasestorage.googleapis.com/" + imagem.getOriginalFilename())
-                  .collect(Collectors.toSet());
+        return imagens.stream()
+                .map(imagem -> "https://firebasestorage.googleapis.com/" + imagem.getOriginalFilename())
+                .collect(Collectors.toSet());
     }
 
 }

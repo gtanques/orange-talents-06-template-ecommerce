@@ -1,8 +1,8 @@
 package orange.com.br.mercadolivre.usuarios;
 
-import orange.com.br.mercadolivre.usuarios.util.CodificaSenhaLimpa;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -33,12 +33,10 @@ public class Usuario implements UserDetails {
 
     public Usuario(@NotNull @NotBlank String login, @NotNull @NotBlank String senha) {
         this.login = login;
-        this.senha = CodificaSenhaLimpa.hash(senha);
+        this.senha = new BCryptPasswordEncoder().encode(senha);
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
     public String getEmail() {
         return login;
@@ -82,4 +80,5 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

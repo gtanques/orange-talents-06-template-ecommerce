@@ -1,8 +1,8 @@
 package orange.com.br.mercadolivre.emails;
 
 import orange.com.br.mercadolivre.compras.Compra;
+import orange.com.br.mercadolivre.pagamentos.transacoes.Transacao;
 import orange.com.br.mercadolivre.produtos.perguntas.Pergunta;
-import orange.com.br.mercadolivre.transacoes.Transacao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ public class Emails {
         this.mailer = mailer;
     }
 
-    public void novaPergunta(@NotNull @Valid Pergunta pergunta){
+    public void novaPergunta(@NotNull @Valid Pergunta pergunta) {
         System.out.println("novaPergunta");
 
         mailer.enviar("<html> . . . </html>", pergunta.getPergunta(),
@@ -27,7 +27,7 @@ public class Emails {
                 pergunta.getProduto().getUsuario().getEmail());
     }
 
-    public void desejoDeCompra(@NotNull @Valid Compra compra){
+    public void desejoDeCompra(@NotNull @Valid Compra compra) {
         System.out.println("desejoDeCompra");
         mailer.enviar("<html> . . . </html>",
                 compra.getProduto().getNome(),
@@ -35,14 +35,14 @@ public class Emails {
                 compra.getProduto().getUsuario().getEmail());
     }
 
-    public void avisoTransacaoRecusada(@NotNull @Valid Transacao transacao){
+    public void avisoTransacaoRecusada(@NotNull @Valid Transacao transacao) {
         System.out.println("avisoTransacaoRecusada");
         mailer.enviarAvisoTransacaoRecusada("Pagamento Recusado",
-            "Falha ao processar o pagamento do produto " +
-            transacao.getCompra().getProduto().getNome(),
-            "Tente novamente: http://localhost:8080/produtos/detalhe/" +
-            transacao.getCompra().getId(),
-            transacao.getCompra().getComprador().getEmail());
+                "Falha ao processar o pagamento do produto " +
+                        transacao.getCompra().getProduto().getNome(),
+                "Tente novamente: http://localhost:8080/produtos/detalhe/" +
+                        transacao.getCompra().getId(),
+                transacao.getCompra().getComprador().getEmail());
     }
 
     public void transacaoEfetuada(@NotNull @Valid Transacao transacao) {

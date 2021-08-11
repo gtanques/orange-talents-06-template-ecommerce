@@ -44,7 +44,6 @@ public class Opiniao {
                    @NotNull @NotBlank @Length(max = 500) String descricao,
                    @NotNull @Valid Produto produto,
                    @NotNull @Valid Usuario usuario) {
-        this.id = id;
         this.nota = nota;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -60,14 +59,19 @@ public class Opiniao {
         return descricao;
     }
 
-    public Integer getNota() {  return nota; }
+    public Integer getNota() { return nota; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Opiniao opiniao = (Opiniao) o;
-        return Objects.equals(id, opiniao.id) && Objects.equals(nota, opiniao.nota) && Objects.equals(titulo, opiniao.titulo) && Objects.equals(descricao, opiniao.descricao) && Objects.equals(produto, opiniao.produto) && Objects.equals(usuario, opiniao.usuario);
+        return Objects.equals(id, opiniao.id) &&
+                Objects.equals(nota, opiniao.nota) &&
+                Objects.equals(titulo, opiniao.titulo) &&
+                Objects.equals(descricao, opiniao.descricao) &&
+                Objects.equals(produto, opiniao.produto) &&
+                Objects.equals(usuario, opiniao.usuario);
     }
 
     @Override

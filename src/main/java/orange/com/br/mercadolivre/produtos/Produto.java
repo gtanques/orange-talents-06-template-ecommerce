@@ -82,6 +82,10 @@ public class Produto {
                 .collect(Collectors.toSet()));
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getNome() {
         return nome;
     }

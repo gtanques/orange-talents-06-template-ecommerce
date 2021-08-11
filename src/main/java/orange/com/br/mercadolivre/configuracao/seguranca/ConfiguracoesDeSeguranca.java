@@ -57,6 +57,8 @@ public class ConfiguracoesDeSeguranca extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers(HttpMethod.POST, "/usuarios/novo").permitAll()
+                .antMatchers(HttpMethod.POST, "/notas-fiscais").permitAll()
+                .antMatchers(HttpMethod.POST, "/ranking").permitAll()
             .anyRequest().authenticated()
             .and()
                 .cors()

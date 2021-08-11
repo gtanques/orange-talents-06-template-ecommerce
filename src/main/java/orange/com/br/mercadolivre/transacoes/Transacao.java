@@ -38,6 +38,14 @@ public class Transacao {
 
     public StatusTransacao getStatusCompra() { return statusCompra; }
 
+    public String getId() { return id; }
+
+    public GatewayPagamento getGateway() { return gateway; }
+
+    public Instant getMomentoTransacao() { return momentoTransacao; }
+
+    public Compra getCompra() { return compra; }
+
     private StatusTransacao tratarRetornoGateway(String retorno){
         if (retorno.equals("1") || retorno.equals("Sucesso")){
             return StatusTransacao.SUCESSO;

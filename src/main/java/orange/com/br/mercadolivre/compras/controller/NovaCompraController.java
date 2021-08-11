@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -21,12 +20,10 @@ import javax.validation.Valid;
 @RequestMapping("/compras")
 public class NovaCompraController {
 
-    @PersistenceContext
     private final EntityManager entityManager;
-
-    @Autowired
     private final Emails emails;
 
+    @Autowired
     public NovaCompraController(EntityManager entityManager, Emails emails) {
         this.entityManager = entityManager;
         this.emails = emails;
@@ -37,10 +34,8 @@ public class NovaCompraController {
     public ResponseEntity<?> inserir(@RequestBody @Valid NovaCompraRequest request, Authentication auth) {
         Usuario usuarioLogado = (Usuario) auth.getPrincipal();
         Compra novaCompra = request.toModel(entityManager, usuarioLogado);
-        emails.desejoDeCompra(novaCompra);
-
         entityManager.persist(novaCompra);
-
+        emails.desejoDeCompra(novaCompra);
         String urlPagamento = novaCompra.getGateway().financeiro().pagar(novaCompra.getId());
 
         return ResponseEntity.status(302).body(urlPagamento);

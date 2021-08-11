@@ -14,6 +14,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
 
 public class NovaCompraRequest {
 
@@ -40,7 +41,8 @@ public class NovaCompraRequest {
         Produto produto = entityManager.find(Produto.class, idProduto);
         boolean abaterEstoque = produto.abaterEstoque(this.quantidade);
         if (abaterEstoque){
-            return new Compra(produto, this.quantidade, comprador, this.gateway);
+            BigDecimal valorCompra = produto.getValor().multiply(BigDecimal.valueOf(this.quantidade));
+            return new Compra(produto, this.quantidade, valorCompra, comprador, this.gateway);
         }else{
             throw new ExcecaoPersonalizada("Quantidade do produto indisponível.", HttpStatus.BAD_REQUEST);
         }
